@@ -19,11 +19,6 @@ const router= createRouter({
                     name:'welcome-register',
                     component: () => import('@/views/welcome/RegisterPage.vue')
                 },
-                {
-                    path:'reset',
-                    name:'welcome-reset',
-                    component: () => import('@/views/welcome/ResetPage.vue')
-                }
             ]
         }, {
             path:'/index',

@@ -46,38 +46,54 @@ const rule = {
   password_repeat: [
     { validator: validatePassword, trigger:['blur', 'change']}
   ],
-  email: [
-    { required: true, message: '请输入邮件地址', trigger: 'blur' },
-    {type: 'email', message: '请输入合法的电子邮件地址', trigger: ['blur', 'change']}
-  ],
-  code: [
-    {required: true, message:'请输入获取的验证码', trigger:['blur']},
-  ]
+  // email: [
+  //   { required: true, message: '请输入邮件地址', trigger: 'blur' },
+  //   {type: 'email', message: '请输入合法的电子邮件地址', trigger: ['blur', 'change']}
+  // ],
+  // code: [
+  //   {required: true, message:'请输入获取的验证码', trigger:['blur']},
+  // ]
 
 }
 
-function askCode() {
-  if(isEmailValid.value) {
-    coldTime.value = 60
-    get(`/api/auth/ask-code?email=${form.email}&type=register`, () => {
-      ElMessage.success(`验证码已发送到邮箱:${form.email},请注意查收`)
-      setInterval( () => coldTime.value--, 1000)
-    }, (message)=> {
-      ElMessage.warning(message)
-      coldTime.value = 0
-    })
-  } else {
-    ElMessage.success(`请输入正确的邮箱地址`)
-  }
-}
+// function askCode() {
+//   if(isEmailValid.value) {
+//     coldTime.value = 60
+//     get(`/api/auth/ask-code?email=${form.email}&type=register`, () => {
+//       ElMessage.success(`验证码已发送到邮箱:${form.email},请注意查收`)
+//       setInterval( () => coldTime.value--, 1000)
+//     }, (message)=> {
+//       ElMessage.warning(message)
+//       coldTime.value = 0
+//     })
+//   } else {
+//     ElMessage.success(`请输入正确的邮箱地址`)
+//   }
+// }
 
-const isEmailValid = computed( () => /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(form.email))
+// const isEmailValid = computed( () => /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(form.email))
+
+// function register() {
+//   formRef.value.validate((valid) => {
+//     if(valid) {
+//       console.log(form);
+//       post('/api/auth/register', {...form}, () => {
+//         ElMessage.success('注册成功')
+//         router.push('/')
+//       })
+//     } else {
+//       ElMessage.warning('请完整填写注册内容')
+//     }
+//   })
+// }
 
 function register() {
   formRef.value.validate((valid) => {
     if(valid) {
-      console.log(form);
-      post('/api/auth/register', {...form}, () => {
+      post('/api/auth/register', {
+        username: form.username,
+        password: form.password
+      }, () => {
         ElMessage.success('注册成功')
         router.push('/')
       })
@@ -117,14 +133,14 @@ function register() {
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="email">
+        <!-- <el-form-item prop="email">
           <el-input v-model="form.email" type="text" placeholder="电子邮件地址">
             <template #prefix>
               <el-icon><Message/></el-icon>
             </template>
           </el-input>
-        </el-form-item>
-          <el-form-item prop="code">
+        </el-form-item> -->
+          <!-- <el-form-item prop="code">
             <el-row :gutter="10" style="width: 100%">
               <el-col :span="17">
                 <el-input v-model="form.code" maxlength="6" type="text" placeholder="请输入验证码">
@@ -139,7 +155,7 @@ function register() {
                 </el-button>
               </el-col>
             </el-row>
-          </el-form-item>
+          </el-form-item> -->
       </el-form>
     </div>
     <div style="margin-top: 80px">
