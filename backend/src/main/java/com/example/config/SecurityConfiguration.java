@@ -1,9 +1,9 @@
 package com.example.config;
 
+import com.example.entity.Account;
 import com.example.entity.RestBean;
 import com.example.entity.SysLog;
-import com.example.entity.dto.Account;
-import com.example.entity.vo.response.AuthorizeVO;
+import com.example.entity.vo.AuthorizeVO;
 import com.example.filter.JwtAuthenticationFilter;
 import com.example.service.AccountService;
 import com.example.service.SysLogService;
@@ -76,7 +76,7 @@ public class SecurityConfiguration {
                                         Authentication authentication) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         User user = (User) authentication.getPrincipal();
-        Account account = accountService.findAccountByNameOrPhone(user.getUsername());
+        Account account = accountService.findAccountByName(user.getUsername());
         String token = utils.createJwt(user, account.getId(), account.getUsername());
         AuthorizeVO vo = new AuthorizeVO();
         vo.setExpire(utils.expireTime());

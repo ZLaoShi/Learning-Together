@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.annotation.SysLogger;
 import com.example.entity.RestBean;
-import com.example.entity.vo.requst.EmailRegisterVO;
+import com.example.entity.dto.RegisterDTO;
 import com.example.service.AccountService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -22,13 +22,13 @@ public class AuthorizeController {
 
     @PostMapping("/register")
     @SysLogger("注册")
-    public RestBean<Void> register(@RequestBody @Valid EmailRegisterVO vo) {
+    public RestBean<Void> register(@RequestBody @Valid RegisterDTO vo) {
         return this.messageHandle(vo, service::registerEmailAccount);
     }
 
     @PostMapping("/reset-password")
     @SysLogger("修改密码")
-    public RestBean<Void> resetPassword(@RequestBody @Valid EmailRegisterVO vo){
+    public RestBean<Void> resetPassword(@RequestBody @Valid RegisterDTO vo){
         return this.messageHandle(vo, service::resetEmailAccountPassword);
     }
 

@@ -3,8 +3,8 @@ package com.example.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.entity.dto.Account;
-import com.example.entity.vo.requst.EmailRegisterVO;
+import com.example.entity.Account;
+import com.example.entity.dto.RegisterDTO;
 import com.example.mapper.AccountMapper;
 import com.example.mapper.SysLogMapper;
 import com.example.service.AccountService;
@@ -40,9 +40,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = this.findAccountByNameOrPhone(username);
+        Account account = this.findAccountByName(username);
         if (account == null)
-            throw new UsernameNotFoundException("用户名或密码错误_test");
+            throw new UsernameNotFoundException("用户名或密码错误");
         return User
                 .withUsername(username)
                 .password(account.getPassword())
@@ -50,25 +50,22 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 .build();
     }
 
-    public Account findAccountByNameOrPhone(String text) {
+    @Override
+    public Account findAccountByName(String text) {
         return this.query()
-                .eq("username", text).or()
-                .eq("phone", text)
+                .eq("username", text)
                 .one();
     }
 
     @Override
-    public String registerEmailAccount(EmailRegisterVO vo) { //注册逻辑
-        log.info("账户信息:[{}]", vo.toString());
-        String phone = vo.getPhone();
+    public String registerEmailAccount(RegisterDTO vo) {
         String username = vo.getUsername();
-
-        if(this.existsAccountByPhone(phone)) return "此手机号已被注册";
-        if(this.existsAccountByUsername(username)) return "此用户名已被注册";
+        if(this.existsAccountByUsername(username)) 
+            return "此用户名已被注册";
 
         String password = encoder.encode(vo.getPassword());
-        Account account = new Account(null, username, password, phone, "user", new Date());
-
+        Account account = new Account(null, username, password, "user", new Date());
+        
         if(this.save(account)) {
             return null;
         } else {
@@ -77,10 +74,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public String resetEmailAccountPassword(EmailRegisterVO vo) {
-        String phone = vo.getPhone();
+    public String resetEmailAccountPassword(RegisterDTO vo) {
         String password = encoder.encode(vo.getPassword());
-        boolean update = this.update().eq("phone", phone).set("password", password).update();
+        boolean update = this.update().set("password", password).update();
         return update ? null : "更新失败，请联系管理员";
     }
 
@@ -93,9 +89,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public boolean createAccount(Account account) {
         // 验证用户名和手机号是否已存在
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", account.getUsername())
-                .or()
-                .eq("phone", account.getPhone());
+        wrapper.eq("username", account.getUsername());
         if(this.count(wrapper) > 0)
             return false;
             
@@ -111,20 +105,15 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Override
     public boolean updateAccount(Account account) {
-        // 验证目标账户是否存在
         Account exist = this.getById(account.getId());
         if(exist == null) return false;
         
-        // 验证用户名和手机号是否与其他账户冲突
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
         wrapper.ne("id", account.getId())
-                .and(w -> w.eq("username", account.getUsername())
-                        .or()
-                        .eq("phone", account.getPhone()));
+               .eq("username", account.getUsername());
         if(this.count(wrapper) > 0)
             return false;
 
-        // 保留原密码和注册时间
         account.setPassword(exist.getPassword());
         account.setRegistertime(exist.getRegistertime());
         
@@ -150,11 +139,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 .update();
     }
 
-    private boolean existsAccountByPhone(String phone) {
-        return this.baseMapper.exists(Wrappers.<Account>query().eq("phone", phone));
-    }
-
     private boolean existsAccountByUsername(String username) {
-        return this.baseMapper.exists(Wrappers.<Account>query().eq("username", username));
+        return this.baseMapper.exists(Wrappers.<Account>query()
+                .eq("username", username));
     }
 }

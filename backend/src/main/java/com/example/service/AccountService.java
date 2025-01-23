@@ -1,17 +1,17 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.entity.dto.Account;
-import com.example.entity.vo.requst.EmailRegisterVO;
+import com.example.entity.Account;
+import com.example.entity.dto.RegisterDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
 public interface AccountService extends IService<Account>, UserDetailsService {
-    Account findAccountByNameOrPhone(String text);
+    Account findAccountByName(String text);
 
-    String registerEmailAccount(EmailRegisterVO vo);
-    String resetEmailAccountPassword(EmailRegisterVO vo);
+    String registerEmailAccount(RegisterDTO vo);
+    String resetEmailAccountPassword(RegisterDTO vo);
 
     // 管理员方法
     List<Account> listAllAccounts();  // 获取所有用户账户
