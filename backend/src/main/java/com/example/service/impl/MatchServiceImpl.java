@@ -164,6 +164,7 @@ private PlaceService placeService;
             record.setUserId1(bestMatch.getUserId1());
             record.setUserId2(bestMatch.getUserId2());
             record.setMatchType("place");
+            // Note: place_id字段预留,当前业务场景下仅需记录匹配类型,无需存储具体地点
             record.setMatchScore(bestMatch.getMatchScore());
             record.setStatus(0);
             record.setCreateTime(new Date());
