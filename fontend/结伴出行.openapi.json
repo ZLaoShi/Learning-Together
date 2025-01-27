@@ -1,0 +1,1579 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "个人项目",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "智能撮合"
+    },
+    {
+      "name": "智能撮合/账户"
+    },
+    {
+      "name": "智能撮合/用户画像"
+    },
+    {
+      "name": "智能撮合/科目"
+    },
+    {
+      "name": "智能撮合/场地"
+    },
+    {
+      "name": "智能撮合/帖子"
+    },
+    {
+      "name": "智能撮合/帖子/管理员"
+    },
+    {
+      "name": "智能撮合/匹配"
+    },
+    {
+      "name": "智能撮合/匹配/更改匹配状态"
+    },
+    {
+      "name": "智能撮合/助学请求"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/账户"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "example": "testuser",
+                    "type": "string"
+                  },
+                  "password": {
+                    "example": "123456",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "summary": "注册账号",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/账户"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "phone": "1234567891",
+                "username": "admin",
+                "password": "admin123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "退出登录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/账户"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM1NzkyNjc1LCJpYXQiOjE3MzUxODc4NzUsImp0aSI6IjliZmMwNmM1LTRmYTAtNDJlZC05Y2Q3LTg0NjZlYjIyYTE0MiIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.US6nsVdwl4UjDMEUrzvJ4HE_xyjTUiyCvq_vv3X8u_k",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/profile/": {
+      "post": {
+        "summary": "更新/创建用户画像  ",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/用户画像"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDEzNjA2LCJpYXQiOjE3Mzc4MDg4MDYsImp0aSI6IjY1ZGU2MjRlLWFmZWMtNDE0Yy1hZDA1LWMwMGUxZjc2MTlhZiIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.ZOWHGEiazIhOY7qLPt_iT1PZU2DGJRA2Mqxx0RsoF8Q",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "realName": "测试用户",
+                "className": "测试班级",
+                "phone": "13800138000",
+                "preferredPlaces": [
+                  1,
+                  2
+                ],
+                "availableTimes": [
+                  {
+                    "weekday": 1,
+                    "time": "19:00-21:00"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "获取用户画像",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/用户画像"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDEzNjA2LCJpYXQiOjE3Mzc4MDg4MDYsImp0aSI6IjY1ZGU2MjRlLWFmZWMtNDE0Yy1hZDA1LWMwMGUxZjc2MTlhZiIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.ZOWHGEiazIhOY7qLPt_iT1PZU2DGJRA2Mqxx0RsoF8Q",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/profile/subjects": {
+      "post": {
+        "summary": "更新/删除用户科目绑定",
+        "deprecated": false,
+        "description": "传入空值以删除",
+        "tags": [
+          "智能撮合/用户画像"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDEiLCJpZCI6MTUsImV4cCI6MTczODUwMTE4MSwiaWF0IjoxNzM3ODk2MzgxLCJqdGkiOiI2OTdhZTM3YS1hZGE0LTQ3NDMtOWFhMy00YzI2MTgyZDlmYzMiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.PnjdI8wty6-QfnYBr2exbWDs5qHrXXZhseCyKERdbUA",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "goodSubjects": {
+                    "example": "1,2",
+                    "type": "string"
+                  },
+                  "needSubjects": {
+                    "example": "3,4",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/subject/": {
+      "post": {
+        "summary": "创建新科目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/科目"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "科目列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/科目"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新科目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/科目"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "id": 1,
+                "name": "高等数学A",
+                "status": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/subject/1": {
+      "get": {
+        "summary": "获取单个科目",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/科目"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/place/": {
+      "post": {
+        "summary": "创建场地",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/场地"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "自习室",
+                "location": "教学楼B区",
+                "availableTime": [
+                  {
+                    "weekday": 1,
+                    "time": "08:00-18:00"
+                  },
+                  {
+                    "weekday": 2,
+                    "time": "08:00-18:00"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "获取场地列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/场地"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新场地",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/场地"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "id": 1,
+                "name": "图书馆",
+                "location": "A区二楼",
+                "availableTime": [
+                  {
+                    "weekday": 1,
+                    "time": "08:00-22:00"
+                  }
+                ],
+                "status": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/place/1": {
+      "get": {
+        "summary": "获取单个场地",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/场地"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NDE1MzIwLCJpYXQiOjE3Mzc4MTA1MjAsImp0aSI6IjFjNTY0ZmE2LWU1ODgtNDgzNi05MGNhLTQzNGI0MjhmZDc0NiIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.fx6_m148EKoiLsO-dS6vII-ZoycMX-NrZU9cgQPV2kQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/admin/post": {
+      "get": {
+        "summary": "管理员获取所有帖子(包括已关闭状态)",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子/管理员"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NTgwMTgyLCJpYXQiOjE3Mzc5NzUzODIsImp0aSI6IjNlNGI3OWFlLTNiNzYtNDY5OS1hNDY5LTk4NzMyOTY4OWExOSIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.YMQrrCT8M7OAINPiId3YHTI4_zfoKhlA3ISL1Qhpghs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/admin/status": {
+      "put": {
+        "summary": "管理员更新帖子状态",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子/管理员"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "2",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NTgwMTgyLCJpYXQiOjE3Mzc5NzUzODIsImp0aSI6IjNlNGI3OWFlLTNiNzYtNDY5OS1hNDY5LTk4NzMyOTY4OWExOSIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.YMQrrCT8M7OAINPiId3YHTI4_zfoKhlA3ISL1Qhpghs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/admin/stats": {
+      "get": {
+        "summary": "获取发帖统计",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子/管理员"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "2",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NTgwMTgyLCJpYXQiOjE3Mzc5NzUzODIsImp0aSI6IjNlNGI3OWFlLTNiNzYtNDY5OS1hNDY5LTk4NzMyOTY4OWExOSIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.YMQrrCT8M7OAINPiId3YHTI4_zfoKhlA3ISL1Qhpghs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/admin/stats/export": {
+      "get": {
+        "summary": "导出发帖统计数据",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子/管理员"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "2",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiYWRtaW4iLCJpZCI6NiwiZXhwIjoxNzM4NTgwMTgyLCJpYXQiOjE3Mzc5NzUzODIsImp0aSI6IjNlNGI3OWFlLTNiNzYtNDY5OS1hNDY5LTk4NzMyOTY4OWExOSIsImF1dGhvcml0aWVzIjpbIlJPTEVfYWRtaW4iXX0.YMQrrCT8M7OAINPiId3YHTI4_zfoKhlA3ISL1Qhpghs",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/": {
+      "post": {
+        "summary": "创建帖子",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDM0Njc4LCJpYXQiOjE3Mzc4Mjk4NzgsImp0aSI6IjU2MWY4Y2Y3LTgyN2UtNGI0ZC05MTkxLTkxYWUxY2NlZjQzNCIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.TTzl6E5YAojqaYa0yrYpOD_089gwRMxIMttuG4fHyK4",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "title": "求助高数题目",
+                "content": "求解高等数学第三章习题",
+                "type": "help",
+                "subjectId": 1,
+                "placeId": 1,
+                "timeSlot": {
+                  "weekday": 1,
+                  "time": "19:00-21:00"
+                },
+                "inviteEnabled": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "获取帖子列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDM0Njc4LCJpYXQiOjE3Mzc4Mjk4NzgsImp0aSI6IjU2MWY4Y2Y3LTgyN2UtNGI0ZC05MTkxLTkxYWUxY2NlZjQzNCIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.TTzl6E5YAojqaYa0yrYpOD_089gwRMxIMttuG4fHyK4",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新帖子 ",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDM0Njc4LCJpYXQiOjE3Mzc4Mjk4NzgsImp0aSI6IjU2MWY4Y2Y3LTgyN2UtNGI0ZC05MTkxLTkxYWUxY2NlZjQzNCIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.TTzl6E5YAojqaYa0yrYpOD_089gwRMxIMttuG4fHyK4",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "id": 1,
+                "title": "求助高数题目(已修改)",
+                "content": "求解高等数学第三章习题",
+                "type": "help",
+                "subjectId": 1,
+                "placeId": 1,
+                "timeSlot": {
+                  "weekday": 1,
+                  "time": "19:00-21:00"
+                },
+                "inviteEnabled": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/post/1": {
+      "get": {
+        "summary": "获取单个帖子",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/帖子"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdHVzZXIiLCJpZCI6OCwiZXhwIjoxNzM4NDM0Njc4LCJpYXQiOjE3Mzc4Mjk4NzgsImp0aSI6IjU2MWY4Y2Y3LTgyN2UtNGI0ZC05MTkxLTkxYWUxY2NlZjQzNCIsImF1dGhvcml0aWVzIjpbIlJPTEVfdXNlciJdfQ.TTzl6E5YAojqaYa0yrYpOD_089gwRMxIMttuG4fHyK4",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/user": {
+      "get": {
+        "summary": "获取匹配记录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配/更改匹配状态"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/confirm/12": {
+      "post": {
+        "summary": "确认匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配/更改匹配状态"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/confirm/13": {
+      "post": {
+        "summary": "拒绝匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配/更改匹配状态"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/pending": {
+      "get": {
+        "summary": "获取待确认匹配记录",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配/更改匹配状态"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/subject": {
+      "get": {
+        "summary": "结对匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/complement": {
+      "get": {
+        "summary": "互补匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/place": {
+      "get": {
+        "summary": "地点匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDQiLCJpZCI6MTgsImV4cCI6MTczODUxOTczNiwiaWF0IjoxNzM3OTE0OTM2LCJqdGkiOiI3MmMxNDA3Mi0wYmNlLTRkOWYtYTkxOC0wMWM0NTlhMDNlOTIiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.K47GTxL4ATIgiZyMNS5TsFTkx38cGpY8csRI_D2j5a8",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/match/time": {
+      "get": {
+        "summary": "时间匹配",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/匹配"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDEiLCJpZCI6MTUsImV4cCI6MTczODUyMDA3OCwiaWF0IjoxNzM3OTE1Mjc4LCJqdGkiOiJiYjJlNWM0Mi1lODhlLTRmYTQtYmU4Yi1jOTU1OTFkZjAxMDciLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.9QIX38XBWspdvJ3TtDQq5e_IhtEwRZZedJBbkkFX2qw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/study-request/": {
+      "post": {
+        "summary": "发起助学请求",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/助学请求"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDEiLCJpZCI6MTUsImV4cCI6MTczODUyMDA3OCwiaWF0IjoxNzM3OTE1Mjc4LCJqdGkiOiJiYjJlNWM0Mi1lODhlLTRmYTQtYmU4Yi1jOTU1OTFkZjAxMDciLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.9QIX38XBWspdvJ3TtDQq5e_IhtEwRZZedJBbkkFX2qw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "postId": 1,
+                "toUserId": 16,
+                "message": "一起学习吧",
+                "placeId": 1,
+                "timeSlot": {
+                  "weekday": 1,
+                  "time": "19:00-21:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "获取请求列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/助学请求"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDEiLCJpZCI6MTUsImV4cCI6MTczODUyMDA3OCwiaWF0IjoxNzM3OTE1Mjc4LCJqdGkiOiJiYjJlNWM0Mi1lODhlLTRmYTQtYmU4Yi1jOTU1OTFkZjAxMDciLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.9QIX38XBWspdvJ3TtDQq5e_IhtEwRZZedJBbkkFX2qw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/study-request/pending": {
+      "get": {
+        "summary": "获取待处理请求",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/助学请求"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDIiLCJpZCI6MTYsImV4cCI6MTczODU2OTU3OCwiaWF0IjoxNzM3OTY0Nzc4LCJqdGkiOiIzNDE0YWIyMy0zMGJjLTRiYTItYmUyYy0zZjliZjk2ZjdlY2YiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.fpySMHr9cWSViE_kDpiZ2RuA6JyDMXo_xTYislSWCZg",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/study-request/accept/1": {
+      "post": {
+        "summary": "接受请求",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/助学请求"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDIiLCJpZCI6MTYsImV4cCI6MTczODU2OTU3OCwiaWF0IjoxNzM3OTY0Nzc4LCJqdGkiOiIzNDE0YWIyMy0zMGJjLTRiYTItYmUyYy0zZjliZjk2ZjdlY2YiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.fpySMHr9cWSViE_kDpiZ2RuA6JyDMXo_xTYislSWCZg",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/study-request/reject/2": {
+      "post": {
+        "summary": "拒绝请求",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "智能撮合/助学请求"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoidGVzdDIiLCJpZCI6MTYsImV4cCI6MTczODU2OTU3OCwiaWF0IjoxNzM3OTY0Nzc4LCJqdGkiOiIzNDE0YWIyMy0zMGJjLTRiYTItYmUyYy0zZjliZjk2ZjdlY2YiLCJhdXRob3JpdGllcyI6WyJST0xFX3VzZXIiXX0.fpySMHr9cWSViE_kDpiZ2RuA6JyDMXo_xTYislSWCZg",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": {}
+}

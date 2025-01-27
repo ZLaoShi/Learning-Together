@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -49,6 +50,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/api/auth/**", "/error").permitAll()
                         .requestMatchers("/uploads/**").permitAll() // 允许访问上传的文件
+                        .requestMatchers(HttpMethod.GET, "/api/post/").permitAll()  // 放行帖子列表
+                        .requestMatchers(HttpMethod.GET, "/api/post/{id}").permitAll()  // 放行帖子详情
                         .anyRequest()
                         .authenticated())
                 .formLogin(conf -> conf

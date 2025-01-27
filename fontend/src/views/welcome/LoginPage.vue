@@ -30,7 +30,7 @@ function userLogin() {
   <div style="text-align: center;margin: 0 20px">
     <div style="margin-top: 150px">
       <div style="font-size: 25px;font-weight: bold">登录</div>
-      <div style="font-size: 14px;color: grey">进入系统之前，输入用户名与密码登录</div>
+      <div style="font-size: 14px;color: grey">使用该功能之前，输入用户名与密码登录</div>
     </div>
 
     <div style="margin-top: 50px">

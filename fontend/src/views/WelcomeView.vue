@@ -10,8 +10,8 @@
       />
     </div>
     <div class="welcome-title">
-      <div style="font-size: 30px; font-weight: bold">欢迎来到我们的学习平台</div>
-      <div style="margin: 10px">在这里你可以学习如何使用JAVA，如何搭建网站</div>
+      <div style="font-size: 30px; font-weight: bold">欢迎来到我们的助学平台</div>
+      <div style="margin: 10px">在这里你可以寻找学习伙伴，共同进步</div>
     </div>
     <div class="right-card">
       <router-view v-slot="{Component}">

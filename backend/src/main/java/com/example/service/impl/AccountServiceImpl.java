@@ -87,7 +87,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Override
     public boolean createAccount(Account account) {
-        // 验证用户名和手机号是否已存在
+        // 验证用户名否已存在
         QueryWrapper<Account> wrapper = new QueryWrapper<>();
         wrapper.eq("username", account.getUsername());
         if(this.count(wrapper) > 0)

@@ -2,20 +2,25 @@ import axios from "axios";
 import {ElMessage} from "element-plus";
 
 const authItemName = "access_token"
+const refreshInterval = 1000 * 60 * 30  // 30分钟刷新一次
 
 const defaultFailure = (message, code, url) => {
     console.warn(`请求地址：${url}, 状态码:${code}, 错误信息:${message}`)
     ElMessage.warning(message)
 }
 
-function takeAccessToken() { //拿到Token
-    const str = localStorage.getItem(authItemName) || sessionStorage.getItem(authItemName)
-    if(!str) return null;
+function takeAccessToken() {
+    const str = localStorage.getItem(authItemName) || sessionStorage.getItem(authItemName) 
+    if(!str) return null
     const authObj = JSON.parse(str)
-    if(authObj.expire <= new Date()) {
-        deleteAccessToken()
-        ElMessage.warning(`登录状态已过期，请重新登录`)
-        return null
+    
+    // 提前30分钟刷新token
+    const expireTime = new Date(authObj.expire).getTime()
+    if(expireTime - new Date().getTime() <= refreshInterval) {
+        // 刷新token
+        post('/api/auth/refresh', {}, (data) => {
+            storeAccessToken(true, data.token, data.expire)
+        })
     }
     return authObj.token
 }
@@ -50,6 +55,31 @@ function get(url, success, failure = defaultFailure) {
 function post(url, data, success, failure = defaultFailure) {
     internalPost(url, data, accessHeader(), success, failure)
 }
+
+function put(url, data, success, failure = defaultFailure) {
+    axios.put(url, data, {
+        headers: accessHeader()
+    }).then(({data}) => {
+        if(data.code === 200) {
+            success(data.data)
+        } else {
+            failure(data.message, data.code, url)
+        }
+    }).catch(err => defaultError(err))
+}
+
+function del(url, success, failure = defaultFailure) {
+    axios.delete(url, {
+        headers: accessHeader()
+    }).then(({data}) => {
+        if(data.code === 200) {
+            success(data.data)
+        } else {
+            failure(data.message, data.code, url)
+        }
+    }).catch(err => defaultError(err))
+}
+
 function internalPost(url, data, header, success, failure) {
     axios.post(url, data, {headers:header}).then(({data}) => {
         if(data.code === 200) {
@@ -95,4 +125,4 @@ function logout(success, failure = defaultFailure) {
 function unauthorized() {
     return !takeAccessToken()
 }
-export {login, logout, get, post, unauthorized}
+export { login, logout, get, post, put, del, unauthorized }
