@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.annotation.SysLogger;
 import com.example.entity.RestBean;
 import com.example.entity.dto.SubjectDTO;
 import com.example.entity.vo.SubjectVO;
@@ -19,11 +20,13 @@ public class SubjectController {
     private SubjectService service;
 
     @GetMapping("/")
+    @SysLogger("获取科目列表")
     public RestBean<List<SubjectVO>> listSubjects() {
         return RestBean.success(service.listAllSubjects());
     }
 
     @GetMapping("/{id}")
+    @SysLogger("获取科目详情")
     public RestBean<SubjectVO> getSubject(@PathVariable Integer id) {
         SubjectVO subject = service.getSubjectById(id);
         return subject != null ? 
@@ -41,9 +44,19 @@ public class SubjectController {
 
     @PutMapping("/")
     @PreAuthorize("hasRole('admin')")
+    @SysLogger("更新科目状态")
     public RestBean<Void> updateSubject(@RequestBody @Valid SubjectDTO dto) {
         return service.updateSubject(dto) ? 
             RestBean.success() : 
             RestBean.failure(400, "更新失败");
     }
+
+    // @DeleteMapping("/{id}")
+    // @PreAuthorize("hasRole('admin')")
+    // @SysLogger("删除科目")
+    // public RestBean<Void> deleteSubject(@PathVariable Integer id) {
+    //     return service.deleteSubject(id) ? 
+    //         RestBean.success() : 
+    //         RestBean.failure(400, "删除失败");
+    // }
 }

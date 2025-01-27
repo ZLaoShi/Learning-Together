@@ -17,6 +17,7 @@ public class SysLog {
     private String operation;
     private String method;
     private String params;
+    private String response;
     private Long time;
     private String ip;
     private Date createTime;

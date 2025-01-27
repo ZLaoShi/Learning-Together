@@ -11,4 +11,5 @@ public interface SubjectService extends IService<Subject> {
     SubjectVO getSubjectById(Integer id);
     boolean createSubject(SubjectDTO dto);
     boolean updateSubject(SubjectDTO dto);
+    boolean deleteSubject(Integer id);
 }

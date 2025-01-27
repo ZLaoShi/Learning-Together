@@ -35,19 +35,22 @@ public class SysLogAspect {
     @Pointcut("@annotation(com.example.annotation.SysLogger)")
     public void logPointCut() {}
 
-    @Around("logPointCut() && @annotation(sysLogger)")
-    public Object around(ProceedingJoinPoint point, SysLogger sysLogger) throws Throwable {
-        long beginTime = System.currentTimeMillis();
+    @Around("@annotation(sysLogger)")
+    public Object around(ProceedingJoinPoint joinPoint, SysLogger sysLogger) throws Throwable {
+        // 排除导出接口
+        if(joinPoint.getSignature().getName().contains("export")) {
+            return joinPoint.proceed();
+        }
+
+        long startTime = System.currentTimeMillis();
+        Object result = joinPoint.proceed();
+        long time = System.currentTimeMillis() - startTime;
         
-        Object result = point.proceed();
-        
-        // 记录日志
-        saveSysLog(point, sysLogger, System.currentTimeMillis() - beginTime);
-        
+        saveSysLog(joinPoint, sysLogger, time, result);
         return result;
     }
 
-    private void saveSysLog(ProceedingJoinPoint joinPoint, SysLogger sysLogger, long time) {
+    private void saveSysLog(ProceedingJoinPoint joinPoint, SysLogger sysLogger, long time, Object result) {
         try {
             SysLog sysLog = new SysLog();
             
@@ -61,16 +64,22 @@ public class SysLogAspect {
             sysLog.setMethod(joinPoint.getSignature().getDeclaringTypeName() + "." 
                     + joinPoint.getSignature().getName());
                     
-            // 对于文件上传接口,不记录参数
-            if(!joinPoint.getSignature().getName().contains("upload")) {
+            // 对于文件上传/导出接口,不记录参数
+            if(!joinPoint.getSignature().getName().contains("upload") 
+                    && !joinPoint.getSignature().getName().contains("export")) {
                 sysLog.setParams(JSON.toJSONString(joinPoint.getArgs()));
             } else {
-                sysLog.setParams("文件上传,参数未记录");
+                sysLog.setParams("文件上传或导出接口,参数未记录");
             }
             
             sysLog.setTime(time);
             sysLog.setIp(getIpAddr());
             sysLog.setCreateTime(new Date());
+            
+            // 记录非文件接口的响应数据
+            if(result != null && !joinPoint.getSignature().getName().contains("export")) {
+                sysLog.setResponse(JSON.toJSONString(result));
+            }
             
             sysLogMapper.insert(sysLog);
         } catch (Exception e) {

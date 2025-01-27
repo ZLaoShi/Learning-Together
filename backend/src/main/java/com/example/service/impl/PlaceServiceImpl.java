@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,10 +23,28 @@ public class PlaceServiceImpl extends ServiceImpl<PlaceMapper, Place> implements
 
     @Override
     public List<PlaceVO> listAllPlaces() {
-        return this.list().stream()
-                .map(this::convertToVO)
-                .collect(Collectors.toList());
-    }
+        String role = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority();
+                
+        // 管理员可以看到所有场地,普通用户只能看到启用的
+        if("ROLE_admin".equals(role)) {
+            return this.list().stream()
+                    .map(this::convertToVO)
+                    .collect(Collectors.toList());
+        } else {
+            return this.lambdaQuery()
+                    .eq(Place::getStatus, 1)  // 只查询启用状态
+                    .list()
+                    .stream()
+                    .map(this::convertToVO)
+                    .collect(Collectors.toList());
+        }
+    } //TO DO 待其他操作补全逻辑删除相关判断逻辑
 
     @Override
     public PlaceVO getPlaceById(Integer id) {
@@ -49,6 +68,16 @@ public class PlaceServiceImpl extends ServiceImpl<PlaceMapper, Place> implements
         if(place == null) return false;
         
         BeanUtils.copyProperties(dto, place);
+        place.setUpdateTime(new Date());
+        return this.updateById(place);
+    }
+
+    @Override
+    public boolean deletePlace(Integer id) {
+        Place place = this.getById(id);
+        if(place == null) return false;
+        
+        place.setStatus(0);  // 0表示禁用
         place.setUpdateTime(new Date());
         return this.updateById(place);
     }

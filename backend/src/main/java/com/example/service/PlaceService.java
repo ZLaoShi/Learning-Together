@@ -11,4 +11,5 @@ public interface PlaceService extends IService<Place> {
     PlaceVO getPlaceById(Integer id);
     boolean createPlace(PlaceDTO dto);
     boolean updatePlace(PlaceDTO dto);
+    boolean deletePlace(Integer id);
 }

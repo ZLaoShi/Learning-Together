@@ -7,6 +7,7 @@ import com.example.entity.vo.SubjectVO;
 import com.example.mapper.SubjectMapper;
 import com.example.service.SubjectService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +18,28 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
 
     @Override
     public List<SubjectVO> listAllSubjects() {
-        return this.list().stream()
-                .map(this::convertToVO)
-                .collect(Collectors.toList());
-    }
+        String role = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority();
+                
+        // 管理员可以看到所有科目,普通用户只能看到启用的
+        if("ROLE_admin".equals(role)) {
+            return this.list().stream()
+                    .map(this::convertToVO)
+                    .collect(Collectors.toList());
+        } else {
+            return this.lambdaQuery()
+                    .eq(Subject::getStatus, 1)  // 只查询启用状态
+                    .list()
+                    .stream()
+                    .map(this::convertToVO)
+                    .collect(Collectors.toList());
+        }
+    } //TO DO 待其他操作补全逻辑删除相关判断逻辑
 
     @Override
     public SubjectVO getSubjectById(Integer id) {
@@ -44,6 +63,16 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
         if(subject == null) return false;
         
         BeanUtils.copyProperties(dto, subject);
+        subject.setUpdateTime(new Date());
+        return this.updateById(subject);
+    }
+
+    @Override
+    public boolean deleteSubject(Integer id) {
+        Subject subject = this.getById(id);
+        if(subject == null) return false;
+        
+        subject.setStatus(0);  // 0表示禁用
         subject.setUpdateTime(new Date());
         return this.updateById(subject);
     }
