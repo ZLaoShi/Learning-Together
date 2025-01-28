@@ -2,10 +2,12 @@ package com.example.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.entity.Account;
 import com.example.entity.UserProfile;
 import com.example.entity.UserSubject;
 import com.example.entity.dto.UserProfileDTO;
 import com.example.entity.vo.UserProfileVO;
+import com.example.mapper.AccountMapper;
 import com.example.mapper.UserProfileMapper;
 import com.example.mapper.UserSubjectMapper;
 import com.example.service.UserProfileService;
@@ -31,7 +33,48 @@ public class UserProfileServiceImpl extends ServiceImpl<UserProfileMapper, UserP
     @Resource
     private UserSubjectMapper userSubjectMapper;
 
+    @Resource
+    AccountMapper accountMapper;
 
+    @Override
+    public UserProfileVO getUserProfileByUsername(String username) {
+        // 通过用户名找到用户ID
+        Account account = accountMapper.selectOne(
+            new QueryWrapper<Account>().eq("username", username)
+        );
+        if(account == null) {
+            return new UserProfileVO();
+        }
+
+        // 查询用户画像
+        UserProfile profile = this.lambdaQuery()
+                .eq(UserProfile::getUserId, account.getId())
+                .one();
+                
+        // 转换为VO
+        UserProfileVO vo = new UserProfileVO();
+        if(profile != null) {
+            BeanUtils.copyProperties(profile, vo);
+            
+            // 查询用户的科目关联信息
+            List<UserSubject> subjects = userSubjectMapper.selectList(
+                new QueryWrapper<UserSubject>()
+                    .eq("user_id", account.getId()));
+            
+            vo.setGoodSubjects(subjects.stream()
+                    .filter(s -> "good".equals(s.getType()))
+                    .map(UserSubject::getSubjectId)
+                    .collect(Collectors.toList()));
+                    
+            vo.setNeedSubjects(subjects.stream()
+                    .filter(s -> "need".equals(s.getType()))
+                    .map(UserSubject::getSubjectId)
+                    .collect(Collectors.toList()));
+        }
+        
+        return vo;
+    } // TO DO 待加入判断是否有同意的请求逻辑
+    
     @Override
     public UserProfileVO getCurrentUserProfile() {
         // 获取当前登录用户ID

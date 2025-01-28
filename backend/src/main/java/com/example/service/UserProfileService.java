@@ -14,5 +14,6 @@ public interface UserProfileService extends IService<UserProfile> {
     UserProfile getUserProfile(Integer userId);
     boolean updateUserSubjects(Integer userId, List<Integer> goodSubjects, List<Integer> needSubjects);
 
+    UserProfileVO getUserProfileByUsername(String username);
     // UserSubjectsVO getUserSubjects(Integer userId);
 }

@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,12 @@ public class UserProfileController {
     @SysLogger("获取用户画像")
     public RestBean<UserProfileVO> getUserProfile() {
         return RestBean.success(service.getCurrentUserProfile());
+    }
+
+    @GetMapping("/{username}")
+    @SysLogger("查询用户画像")
+    public RestBean<UserProfileVO> getUserProfileByUsername(@PathVariable String username) {
+        return RestBean.success(service.getUserProfileByUsername(username));
     }
 
     @PostMapping("/")

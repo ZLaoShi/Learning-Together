@@ -75,29 +75,36 @@ public class SecurityConfiguration {
     }
 
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication) throws IOException {
+                                  HttpServletResponse response,
+                                  Authentication authentication) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         User user = (User) authentication.getPrincipal();
         Account account = accountService.findAccountByName(user.getUsername());
         String token = utils.createJwt(user, account.getId(), account.getUsername());
+        
         AuthorizeVO vo = new AuthorizeVO();
         vo.setExpire(utils.expireTime());
         vo.setRole(account.getRole());
         vo.setToken(token);
         vo.setUsername(account.getUsername());
-        vo.setId(account.getId());  // 设置用户ID
+        vo.setId(account.getId());
 
-        // 记录登录日志
+        // 先构建响应数据
+        RestBean<AuthorizeVO> restBean = RestBean.success(vo);
+        String responseJson = restBean.asJsonString();
+        
+        // 记录登录日志，包含响应数据
         SysLog loginLog = new SysLog();
         loginLog.setAccountId(account.getId());
         loginLog.setOperation("用户登录");
         loginLog.setMethod("AuthenticationSuccess");
         loginLog.setIp(request.getRemoteAddr());
         loginLog.setCreateTime(new Date());
+        loginLog.setResponse(responseJson); // 存储完整响应
         sysLogService.saveSysLog(loginLog);
         
-        response.getWriter().write(RestBean.success(vo).asJsonString());
+        // 发送响应
+        response.getWriter().write(responseJson);
     }
 
     public void onLogoutSuccess(HttpServletRequest request,
