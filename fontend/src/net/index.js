@@ -37,6 +37,7 @@ function storeAccessToken(remember, token, expire) { //存储Token
 function deleteAccessToken() { //删除Token
     localStorage.removeItem(authItemName)
     sessionStorage.removeItem(authItemName)
+    localStorage.removeItem('user-id')
 }
 const defaultError = (err) => {
     console.error(err)
@@ -109,6 +110,7 @@ function login(username, password, remember, success, failure = defaultFailure) 
     },
         (data) => {
         storeAccessToken(remember, data.token, data.expire)
+        localStorage.setItem('user-id', data.id)
         ElMessage.success(`登录成功，欢迎 ${data.username} 来到我们的系统`)
             success(data)
         },failure)

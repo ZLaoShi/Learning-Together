@@ -11,6 +11,15 @@ export function getUserProfile(success) {
 }
 
 /**
+ * 根据用户名查询用户画像
+ * @param username 用户名
+ * @param success 成功回调
+ */
+export function getUserProfileByUsername(username, success) {
+    get(`/api/profile/${username}`, success)
+}
+
+/**
  * 更新用户画像
  * @param data {realName:真实姓名, className:班级, phone:电话, preferredPlaces:偏好场地[], availableTimes:空闲时间[]}
  * @param success 成功回调
