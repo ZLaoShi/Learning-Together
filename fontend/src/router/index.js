@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { unauthorized } from '@/net'
+import { unauthorized, isAdmin } from '@/net'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,16 +44,43 @@ const router = createRouter({
           meta: { requiresAuth: true }
         }
       ]
+    },
+    {
+      path: '/admin',
+      component: () => import('@/views/admin/index.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+      children: [
+        {path: '', redirect: '/admin/accounts'},
+        {path: 'accounts', component: () => import('@/views/admin/views/AccountsView.vue')},
+        {path: 'posts', component: () => import('@/views/admin/views/PostsView.vue')},
+        {path: 'subjects', component: () => import('@/views/admin/views/SubjectsView.vue')},
+        {path: 'places', component: () => import('@/views/admin/views/PlacesView.vue')},
+        {path: 'stats', component: () => import('@/views/admin/views/StatsView.vue')}
+      ]
     }
   ]
 })
 
+// router.beforeEach((to, from, next) => {
+//   if(to.meta.requiresAuth && unauthorized()) {
+//     next('/auth/login')
+//   } else if(!unauthorized() && to.path.startsWith('/auth')) {
+//     next('/index/posts')
+//   } else next()
+// })
+
 router.beforeEach((to, from, next) => {
+  // 需要登录但未登录
   if(to.meta.requiresAuth && unauthorized()) {
     next('/auth/login')
-  } else if(!unauthorized() && to.path.startsWith('/auth')) {
+  } 
+  // 需要管理员权限但不是管理员
+  else if(to.meta.requiresAdmin && !isAdmin()) {
     next('/index/posts')
-  } else next()
+  }
+  else {
+    next()
+  }
 })
 
 export default router

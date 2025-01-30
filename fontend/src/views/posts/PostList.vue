@@ -8,10 +8,18 @@ const posts = ref([])
 const currentPage = ref(1)
 const pageSize = ref(10)
 
+// 添加排序后的帖子计算属性
+const sortedPosts = computed(() => {
+  return [...posts.value].sort((a, b) => {
+    return new Date(b.updateTime) - new Date(a.updateTime)
+  })
+})
+
+// 修改分页逻辑，使用排序后的帖子
 const paginatedPosts = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
-  return posts.value.slice(start, end)
+  return sortedPosts.value.slice(start, end)
 })
 
 const total = computed(() => posts.value.length)

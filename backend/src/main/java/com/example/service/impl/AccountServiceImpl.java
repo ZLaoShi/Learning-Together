@@ -4,9 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Account;
+import com.example.entity.MatchRecord;
+import com.example.entity.StudyRequest;
+import com.example.entity.UserProfile;
+import com.example.entity.UserSubject;
 import com.example.entity.dto.RegisterDTO;
 import com.example.mapper.AccountMapper;
+import com.example.mapper.MatchMapper;
+import com.example.mapper.PostMapper;
+import com.example.mapper.StudyRequestMapper;
 import com.example.mapper.SysLogMapper;
+import com.example.mapper.UserProfileMapper;
+import com.example.mapper.UserSubjectMapper;
 import com.example.service.AccountService;
 import com.example.utils.FlowUtils;
 import jakarta.annotation.Resource;
@@ -35,8 +44,23 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Resource
     PasswordEncoder encoder;
 
-     @Resource
+    @Resource
     private SysLogMapper sysLogMapper;
+
+    @Resource
+    private UserProfileMapper userProfileMapper;
+
+    @Resource
+    private UserSubjectMapper userSubjectMapper;
+
+    @Resource
+    private PostMapper postMapper;
+
+    @Resource
+    private MatchMapper matchMapper;
+
+    @Resource
+    private StudyRequestMapper studyRequestMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -123,13 +147,43 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     @Transactional
     public boolean deleteAccount(Integer id) {
-    try {
-        return this.removeById(id);
-    } catch (Exception e) {
-        log.error("删除用户失败", e);
-        throw new RuntimeException("删除用户失败");
+        try {
+            // 1. 检查是否存在未处理的匹配
+            Long pendingMatchCount = matchMapper.selectCount(
+                new QueryWrapper<MatchRecord>()
+                    .eq("status", 0)
+                    .and(w -> w.eq("user_id_1", id).or().eq("user_id_2", id))
+            );
+            if(pendingMatchCount > 0) {
+                throw new RuntimeException("存在未处理的匹配请求，无法删除用户");
+            }
+
+            // 2. 检查是否存在未处理的学习请求
+            Long pendingRequestCount = studyRequestMapper.selectCount(
+                new QueryWrapper<StudyRequest>()
+                    .eq("status", 0)
+                    .and(w -> w.eq("from_user_id", id).or().eq("to_user_id", id)) 
+            );
+            if(pendingRequestCount > 0) {
+                throw new RuntimeException("存在未处理的学习请求，无法删除用户");
+            }
+
+            // 3. 删除用户画像
+            userProfileMapper.delete(
+                new QueryWrapper<UserProfile>().eq("user_id", id)
+            );
+
+            // 4. 删除用户科目关联
+            userSubjectMapper.delete(
+                new QueryWrapper<UserSubject>().eq("user_id", id)
+            );
+
+            // 5. 最后删除账号
+            return this.removeById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("删除用户失败: " + e.getMessage());
+        }
     }
-}
 
     @Override
     public boolean resetPassword(Integer id, String newPassword) {

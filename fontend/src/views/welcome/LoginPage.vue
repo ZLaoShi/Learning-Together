@@ -1,7 +1,7 @@
 <script setup>
 import {User, Lock}  from '@element-plus/icons-vue';
 import {reactive, ref} from "vue";
-import {login} from "@/net";
+import {login, isAdmin} from "@/net";
 import router from "@/router";
 
 const formRef = ref()
@@ -20,9 +20,16 @@ const rule = {
 function userLogin() {
   formRef.value.validate((valid) => {
     if(valid) {
-      login(form.username, form.password, form.remember, () => router.push('/index'))
+      login(form.username, form.password, form.remember, (data) => {
+        // 根据角色直接跳转
+        if(data.role === 'admin') {
+          router.push('/admin/accounts')
+        } else {
+          router.push('/index/posts')
+        }
+      })
     }
-  } )
+  })
 }
 </script>
 

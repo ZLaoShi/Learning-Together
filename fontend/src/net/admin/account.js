@@ -44,8 +44,6 @@ export function deleteAccount(id, success) {
  * @param success 成功回调
  */
 export function resetPassword(id, newPassword, success) {
-    post('/api/admin/account/reset-password', {
-        id: id,
-        newPassword: newPassword
-    }, success)
+    // 修改为查询参数形式
+    post(`/api/admin/account/reset-password?id=${id}&newPassword=${newPassword}`, {}, success)
 }

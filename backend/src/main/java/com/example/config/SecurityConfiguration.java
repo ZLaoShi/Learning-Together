@@ -107,19 +107,24 @@ public class SecurityConfiguration {
         response.getWriter().write(responseJson);
     }
 
+    
+
     public void onLogoutSuccess(HttpServletRequest request,
-                                HttpServletResponse response,
-                                Authentication authentication) throws IOException {
-        response.setContentType("application/json;charset=utf-8");
-        PrintWriter writer = response.getWriter();
-        String authorization = request.getHeader("Authorization");
-        if (utils.invalidateJwt(authorization)) {
-            writer.write(RestBean.success().asJsonString());
-        } else {
-            writer.write(RestBean.failure(400, "退出登录失败").asJsonString());
-        }
+        HttpServletResponse response,
+        Authentication authentication) throws IOException {
+            
+    response.setContentType("application/json;charset=utf-8");
+    PrintWriter writer = response.getWriter();
+    String authorization = request.getHeader("Authorization");
+    if (utils.invalidateJwt(authorization)) {
+    writer.write(RestBean.success().asJsonString());
+    } else {
+    writer.write(RestBean.failure(400, "退出登录失败").asJsonString());
+    }
 
     }
+
+
 
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,

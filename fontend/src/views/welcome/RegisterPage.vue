@@ -95,7 +95,7 @@ function register() {
         password: form.password
       }, () => {
         ElMessage.success('注册成功')
-        router.push('/')
+        router.push('/auth/login')
       })
     } else {
       ElMessage.warning('请完整填写注册内容')

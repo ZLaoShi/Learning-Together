@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { logout } from '@/net'
+import { logout, unauthorized } from '@/net'
 
 const router = useRouter()
 const activeIndex = ref('/index/posts')
@@ -39,7 +39,7 @@ function userLogout() {
         
         <el-divider />
         
-        <el-menu-item @click="userLogout">
+        <el-menu-item v-if="!unauthorized()" @click="userLogout">
           <el-icon><SwitchButton /></el-icon>
           <span>退出登录</span>
         </el-menu-item>

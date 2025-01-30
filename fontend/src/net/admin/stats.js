@@ -7,7 +7,7 @@ import { get, post } from '../index'
  * @param success 成功回调
  */
 export function getUserActivityStats(success) {
-    get('/api/admin/stats/user-activity', success)
+    get('/api/post/admin/stats', success)
 }
 
 /**
@@ -15,13 +15,13 @@ export function getUserActivityStats(success) {
  * @param success 成功回调
  */
 export function getOperationStats(success) {
-    get('/api/admin/stats/operation', success)
+    get('/api/post/admin/stats', success)
 }
 
 /**
- * 清理过期日志
- * @param success 成功回调
+ * 导出统计数据
+ * @param success 成功回调, 返回blob数据
  */
-export function cleanOldLogs(success) {
-    post('/api/admin/stats/clean-logs', {}, success)
+export function exportStats(success) {
+    get('/api/post/admin/stats/export', success, 'blob')
 }

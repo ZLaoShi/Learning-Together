@@ -25,13 +25,20 @@ function takeAccessToken() {
     return authObj.token
 }
 
-function storeAccessToken(remember, token, expire) { //存储Token
-    const authObj = {token: token, expire: expire}
+function storeAccessToken(remember, token, expire, role) { //存储Token
+    const authObj = {token: token, expire: expire, role: role}
     const str = JSON.stringify(authObj)
     if(remember)
         localStorage.setItem(authItemName, str)
     else
         sessionStorage.setItem(authItemName, str)
+}
+
+function isAdmin() {
+    const str = localStorage.getItem(authItemName) || sessionStorage.getItem(authItemName)
+    if(!str) return false
+    const authObj = JSON.parse(str)
+    return authObj.role === 'admin'
 }
 
 function deleteAccessToken() { //删除Token
@@ -109,7 +116,7 @@ function login(username, password, remember, success, failure = defaultFailure) 
         'Content-Type' : 'application/x-www-form-urlencoded'
     },
         (data) => {
-        storeAccessToken(remember, data.token, data.expire)
+        storeAccessToken(remember, data.token, data.expire, data.role)
         localStorage.setItem('user-id', data.id)
         ElMessage.success(`登录成功，欢迎 ${data.username} 来到我们的系统`)
             success(data)
@@ -127,4 +134,4 @@ function logout(success, failure = defaultFailure) {
 function unauthorized() {
     return !takeAccessToken()
 }
-export { login, logout, get, post, put, del, unauthorized }
+export { login, logout, get, post, put, del, unauthorized, isAdmin }

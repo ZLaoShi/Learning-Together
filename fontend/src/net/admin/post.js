@@ -17,10 +17,7 @@ export function getAllPosts(success) {
  * @param success 成功回调
  */
 export function updatePostStatus(id, status, success) {
-    put('/api/post/admin/status', {
-        id: id,
-        status: status
-    }, success)
+    put(`/api/post/admin/status?id=${id}&status=${status}`, {}, success)
 }
 
 /**
