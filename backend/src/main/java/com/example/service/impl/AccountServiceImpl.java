@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Account;
 import com.example.entity.MatchRecord;
 import com.example.entity.StudyRequest;
+import com.example.entity.SysLog;
 import com.example.entity.UserProfile;
 import com.example.entity.UserSubject;
 import com.example.entity.dto.RegisterDTO;
@@ -168,17 +169,22 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 throw new RuntimeException("存在未处理的学习请求，无法删除用户");
             }
 
-            // 3. 删除用户画像
+            // 3. 删除系统日志记录
+            sysLogMapper.delete(
+                new QueryWrapper<SysLog>().eq("account_id", id)
+            );
+
+            // 4. 删除用户画像
             userProfileMapper.delete(
                 new QueryWrapper<UserProfile>().eq("user_id", id)
             );
 
-            // 4. 删除用户科目关联
+            // 5. 删除用户科目关联
             userSubjectMapper.delete(
                 new QueryWrapper<UserSubject>().eq("user_id", id)
             );
 
-            // 5. 最后删除账号
+            // 6. 最后删除账号
             return this.removeById(id);
         } catch (Exception e) {
             throw new RuntimeException("删除用户失败: " + e.getMessage());

@@ -23,13 +23,13 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `db_account`;
 CREATE TABLE `db_account`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `registertime` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of db_account
@@ -49,7 +49,7 @@ CREATE TABLE `match_record`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id_1` int NOT NULL COMMENT '发起匹配的用户id',
   `user_id_2` int NOT NULL COMMENT '被匹配的用户id',
-  `match_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '匹配类pair结对/time按时间/place按地点/complement互补',
+  `match_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '匹配类pair结对/time按时间/place按地点/complement互补',
   `subject_id` int NULL DEFAULT NULL COMMENT '匹配的科目id',
   `place_id` int NULL DEFAULT NULL COMMENT '匹配的场地id',
   `time_slot` json NULL COMMENT '匹配的时间段,格式:{weekday:1-7,time:HH:mm-HH:mm}',
@@ -59,7 +59,7 @@ CREATE TABLE `match_record`  (
   `confirm_time` datetime NULL DEFAULT NULL COMMENT '确认时间',
   `complete_time` datetime NULL DEFAULT NULL COMMENT '完成时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '匹配记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '匹配记录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of match_record
@@ -105,14 +105,14 @@ INSERT INTO `match_record` VALUES (45, 8, 15, 'time', NULL, NULL, NULL, 50.00, 0
 DROP TABLE IF EXISTS `place`;
 CREATE TABLE `place`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '场地名称',
-  `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '具体位置',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '场地名称',
+  `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '具体位置',
   `available_time` json NULL COMMENT '可用时间段,格式:[{weekday:1-7,time:HH:mm-HH:mm}]',
   `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态:1启用,0禁用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '场地表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '场地表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of place
@@ -128,9 +128,9 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL COMMENT '发布用户id',
-  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '内容',
-  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类型:help求助/resource资源',
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '标题',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '内容',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型:help求助/resource资源',
   `subject_id` int NULL DEFAULT NULL COMMENT '相关科目id',
   `place_id` int NULL DEFAULT NULL COMMENT '期望学习地点id',
   `time_slot` json NULL COMMENT '期望时间段,格式:{weekday:1-7,time:HH:mm-HH:mm}',
@@ -142,7 +142,7 @@ CREATE TABLE `post`  (
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE,
   INDEX `idx_subject`(`subject_id` ASC) USING BTREE,
   INDEX `idx_place`(`place_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of post
@@ -161,7 +161,7 @@ CREATE TABLE `post_subject`  (
   `subject_id` int NOT NULL COMMENT '科目id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_post_subject`(`post_id` ASC, `subject_id` ASC) USING BTREE COMMENT '帖子-科目唯一索引'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '信息-科目关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '信息-科目关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of post_subject
@@ -176,7 +176,7 @@ CREATE TABLE `study_request`  (
   `post_id` int NULL DEFAULT NULL COMMENT '关联帖子id,可以为空',
   `from_user_id` int NOT NULL COMMENT '发起请求的用户id',
   `to_user_id` int NOT NULL COMMENT '接收请求的用户id',
-  `message` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '请求留言',
+  `message` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '请求留言',
   `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态:0待处理,1已接受,2已拒绝',
   `place_id` int NULL DEFAULT NULL COMMENT '期望学习地点',
   `time_slot` json NULL COMMENT '期望学习时间,格式:{weekday:1-7,time:HH:mm-HH:mm}',
@@ -186,7 +186,7 @@ CREATE TABLE `study_request`  (
   INDEX `idx_post`(`post_id` ASC) USING BTREE,
   INDEX `idx_from_user`(`from_user_id` ASC) USING BTREE,
   INDEX `idx_to_user`(`to_user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '学习请求表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '学习请求表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of study_request
@@ -202,13 +202,13 @@ INSERT INTO `study_request` VALUES (5, 1, 15, 8, '', 1, 1, NULL, '2025-01-28 21:
 DROP TABLE IF EXISTS `subject`;
 CREATE TABLE `subject`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '科目名称',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '科目名称',
   `status` tinyint NOT NULL DEFAULT 1 COMMENT '状态:1启用,0禁用',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE COMMENT '科目名称唯一索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '科目表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '科目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of subject
@@ -226,17 +226,17 @@ DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '日志ID',
   `account_id` int NULL DEFAULT NULL COMMENT '用户ID',
-  `operation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '操作类型',
-  `method` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '请求方法',
-  `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '请求参数',
+  `operation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '操作类型',
+  `method` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '请求方法',
+  `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '请求参数',
   `time` bigint NULL DEFAULT NULL COMMENT '执行时长(毫秒)',
-  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'IP地址',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'IP地址',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `response` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '接口响应数据',
+  `response` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '接口响应数据',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `account_id`(`account_id` ASC) USING BTREE,
   CONSTRAINT `sys_log_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `db_account` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2651 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '系统日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2651 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log
@@ -1016,16 +1016,16 @@ DROP TABLE IF EXISTS `user_profile`;
 CREATE TABLE `user_profile`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL COMMENT '关联用户id',
-  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '真实姓名',
-  `class_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级',
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '真实姓名',
+  `class_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '班级',
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '联系电话',
   `preferred_places` json NULL COMMENT '偏好学习地点列表,格式:[place_id1, place_id2]',
   `available_times` json NULL COMMENT '空闲时间段列表,格式:[{weekday:1-7,time:HH:mm-HH:mm}]',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE COMMENT '用户ID索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户画像表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户画像表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_profile
@@ -1044,10 +1044,10 @@ CREATE TABLE `user_subject`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL COMMENT '用户id',
   `subject_id` int NOT NULL COMMENT '科目id',
-  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '类型:good擅长/need需求',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '类型:good擅长/need需求',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_subject`(`user_id` ASC, `subject_id` ASC, `type` ASC) USING BTREE COMMENT '用户-科目-类型唯一索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户-科目关联表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户-科目关联表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_subject

@@ -51,12 +51,12 @@ public class SubjectController {
             RestBean.failure(400, "更新失败");
     }
 
-    // @DeleteMapping("/{id}")
-    // @PreAuthorize("hasRole('admin')")
-    // @SysLogger("删除科目")
-    // public RestBean<Void> deleteSubject(@PathVariable Integer id) {
-    //     return service.deleteSubject(id) ? 
-    //         RestBean.success() : 
-    //         RestBean.failure(400, "删除失败");
-    // }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('admin')")
+    @SysLogger("禁用科目")
+    public RestBean<Void> deleteSubject(@PathVariable Integer id) {
+        return service.deleteSubject(id) ? 
+            RestBean.success() : 
+            RestBean.failure(400, "禁用失败");
+    }
 }

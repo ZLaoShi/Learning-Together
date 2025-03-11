@@ -29,15 +29,22 @@ function parseTimeToDate(timeStr) {
 
 function loadData() {
   getUserProfile((data) => {
-    // 处理后端返回的时间数据
-    if(data.availableTimes) {
-      data.availableTimes = data.availableTimes.map(t => ({
+    // 确保 data.availableTimes 是数组
+    const profile = {
+      ...data,
+      availableTimes: data.availableTimes || [] // 如果为null则设为空数组
+    }
+    
+    // 处理时间数据
+    if(profile.availableTimes.length) {
+      profile.availableTimes = profile.availableTimes.map(t => ({
         weekday: t.weekday,
         time: t.time,
         timeRange: t.time.split('-').map(parseTimeToDate)
       }))
     }
-    Object.assign(form, data)
+    
+    Object.assign(form, profile)
   })
   getSubjectList((data) => subjects.value = data)
   getPlaceList((data) => places.value = data)
