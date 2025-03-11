@@ -35,8 +35,17 @@ export function updateProfile(data, success) {
  * @param success 成功回调
  */
 export function updateSubjects(goodSubjects, needSubjects, success) {
-    post('/api/profile/subjects', {
-        goodSubjects: goodSubjects,
-        needSubjects: needSubjects
-    }, success)
+    // 使用 URLSearchParams 构建查询参数
+    const params = new URLSearchParams();
+    
+    // 添加多个同名参数来传递数组
+    if (goodSubjects) {
+        goodSubjects.forEach(id => params.append('goodSubjects', id));
+    }
+    if (needSubjects) {
+        needSubjects.forEach(id => params.append('needSubjects', id));
+    }
+    
+    // 使用 post 方法发送表单数据
+    post('/api/profile/subjects', params, success);
 }
