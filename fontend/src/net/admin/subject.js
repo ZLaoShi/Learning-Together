@@ -1,6 +1,6 @@
 // 科目管理
 
-import { get, post, put } from '../index'
+import { get, post, put, del } from '../index'
 
 /**
  * 获取科目列表
@@ -43,5 +43,5 @@ export function updateSubject(data, success) {
  * @param success 成功回调
  */
 export function deleteSubject(id, success) {
-    put('/api/subject/', { id, status: 0 }, success)
+    del(`/api/subject/${id}`, success)
 }

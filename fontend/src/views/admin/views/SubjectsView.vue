@@ -47,13 +47,13 @@ function handleSubmit() {
   })
 }
 
-// 删除科目
+// 禁用科目
 function handleDelete(id) {
-  ElMessageBox.confirm('确定要删除该科目吗?', '提示', {
+  ElMessageBox.confirm('确定要禁用该科目吗?', '提示', {
     type: 'warning'
   }).then(() => {
     deleteSubject(id, () => {
-      ElMessage.success('删除成功')
+      ElMessage.success('禁用成功')
       loadSubjects()
     })
   })
@@ -92,7 +92,7 @@ onMounted(() => {
               size="small"
               :disabled="scope.row.status === 0"
               @click="handleDelete(scope.row.id)">
-              删除
+              禁用
             </el-button>
           </el-button-group>
         </template>

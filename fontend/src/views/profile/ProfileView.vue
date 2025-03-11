@@ -7,10 +7,10 @@ import { getPlaceList } from '@/net/user/place'
 
 const form = reactive({
   realName: '',
-  className: '',
+  className: '', 
   phone: '',
   preferredPlaces: [],
-  availableTimes: [],
+  availableTimes: [], // 初始化为空数组而不是undefined
   goodSubjects: [],
   needSubjects: []
 })
@@ -24,7 +24,12 @@ onMounted(() => {
 
 function loadData() {
   getUserProfile((data) => {
-    Object.assign(form, data)
+    // 确保 availableTimes 始终是数组
+    const profile = {
+      ...data,
+      availableTimes: data.availableTimes || []
+    }
+    Object.assign(form, profile)
   })
   getSubjectList((data) => subjects.value = data)
   getPlaceList((data) => places.value = data)
